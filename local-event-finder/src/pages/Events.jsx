@@ -68,7 +68,7 @@ const Events = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Events</h2>
           <button
-            onClick={() => navigate("/app/favorites")}
+            onClick={() => navigate("/favorites")}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
           >
             ⭐ View Favorites

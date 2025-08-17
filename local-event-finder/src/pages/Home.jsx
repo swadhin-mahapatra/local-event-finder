@@ -6,16 +6,16 @@ const Home = () => {
       {/* Hero Section */}
       <div className="relative w-full h-[80vh] flex items-center justify-center">
         <img
-          src="https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2"
+          src="/Thumbnail.png"
           alt="Events Banner"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
+        {/* <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white">
           <h1 className="text-4xl md:text-6xl font-bold">Welcome to Event Finder</h1>
           <p className="mt-4 text-lg md:text-2xl max-w-2xl text-center">
             Discover, create, and track events around you with ease 🎉
           </p>
-        </div>
+        </div> */}
       </div>
 
       {/* Info Section */}
