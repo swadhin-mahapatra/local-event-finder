@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import mockEvents from "./data/mockEvents.json";
-import MapView from "./components/MapView";
-import EventList from "./components/EventList";
-import FilterBar from "./components/FilterBar";
-import FavoritesList from "./components/FavoritesList";
-import { FavoritesProvider } from "./context/FavoritesContext";
+import { useNavigate } from "react-router-dom";
+import mockEvents from "../data/mockEvents.json";
+import MapView from "../components/MapView";
+import EventList from "../components/EventList";
+import FilterBar from "../components/FilterBar";
 import axios from "axios";
 
 const App = () => {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -53,31 +53,46 @@ const App = () => {
     setFilteredEvents(filtered);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    navigate("/"); // go back to login page
+  };
+
   return (
-    <FavoritesProvider>
-      <div className="min-h-screen flex flex-col bg-gray-50">
-        {/* Map */}
-        <div className="w-full h-[400px]">
-          <MapView events={filteredEvents} />
-        </div>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* Header with Logout */}
+      <header className="flex justify-between items-center px-6 py-4 bg-white shadow">
+        <h1 className="text-2xl font-bold text-indigo-600">🎟 Event Finder</h1>
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600"
+        >
+          Logout
+        </button>
+      </header>
 
-        {/* FilterBar */}
-        <FilterBar events={events} onFilter={handleFilter} />
-
-        <div className="flex">
-          {/* Events list */}
-          <div className="flex-1 overflow-y-auto p-4">
-            <EventList events={filteredEvents} />
-          </div>
-
-          {/* Sticky Favorites */}
-          <div className="w-80 p-4 bg-white shadow-md sticky top-0 h-screen overflow-y-auto">
-            <h2 className="text-xl font-bold mb-2">⭐ Favorites</h2>
-            <FavoritesList />
-          </div>
-        </div>
+      {/* Map */}
+      <div className="w-full h-[400px]">
+        <MapView events={filteredEvents} />
       </div>
-    </FavoritesProvider>
+
+      {/* FilterBar */}
+      <FilterBar events={events} onFilter={handleFilter} />
+
+      {/* Events list + Favorites Button */}
+      <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold">Events</h2>
+          <button
+            onClick={() => navigate("/favorites")}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+          >
+            ⭐ View Favorites
+          </button>
+        </div>
+        <EventList events={filteredEvents} />
+      </div>
+    </div>
   );
 };
 
