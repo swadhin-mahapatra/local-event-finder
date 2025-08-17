@@ -1,35 +1,40 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import App from "./pages/App";
-import Login from "./pages/login";
-import Signup from "./pages/signup";
-import FavoritesPage from "./pages/FavoritesPage"; 
-import { FavoritesProvider } from "./context/FavoritesContext"; // ✅ wrap everything
+import Events from "./pages/Events";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import FavoritesPage from "./pages/FavoritesPage";
+import Home from "./pages/Home";
+import Contact from "./pages/Contact";
+import CreateEvent from "./pages/CreateEvent";
+import Navbar from "./components/Navbar";
+import { FavoritesProvider } from "./context/FavoritesContext";
 import "./index.css";
 
-// Protects routes if user is not logged in
+// ✅ Route protection for logged-in users
 const PrivateRoute = ({ children }) => {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  return isLoggedIn ? children : <Navigate to="/" />;
+  return isLoggedIn ? children : <Navigate to="/login" />;
 };
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      {/* ✅ Wrap whole app with FavoritesProvider */}
-      <FavoritesProvider>
+const App = () => {
+  return (
+    <FavoritesProvider>
+      <BrowserRouter>
+        <Navbar /> {/* ✅ Always visible */}
         <Routes>
-          {/* Public routes */}
-          <Route path="/" element={<Login />} />
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          {/* Private routes */}
+          {/* Protected Routes */}
           <Route
-            path="/app"
+            path="/events"
             element={
               <PrivateRoute>
-                <App />
+                <Events />
               </PrivateRoute>
             }
           />
@@ -41,8 +46,33 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               </PrivateRoute>
             }
           />
+          <Route
+            path="/contact"
+            element={
+              <PrivateRoute>
+                <Contact />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/create-event"
+            element={
+              <PrivateRoute>
+                <CreateEvent />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Invalid routes → Home */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </FavoritesProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </FavoritesProvider>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
   </React.StrictMode>
 );

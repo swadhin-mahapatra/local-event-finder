@@ -6,7 +6,7 @@ import EventList from "../components/EventList";
 import FilterBar from "../components/FilterBar";
 import axios from "axios";
 
-const App = () => {
+const Events = () => {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const navigate = useNavigate();
@@ -53,24 +53,8 @@ const App = () => {
     setFilteredEvents(filtered);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    navigate("/"); // go back to login page
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Header with Logout */}
-      <header className="flex justify-between items-center px-6 py-4 bg-white shadow">
-        <h1 className="text-2xl font-bold text-indigo-600">🎟 Event Finder</h1>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600"
-        >
-          Logout
-        </button>
-      </header>
-
       {/* Map */}
       <div className="w-full h-[400px]">
         <MapView events={filteredEvents} />
@@ -84,7 +68,7 @@ const App = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">Events</h2>
           <button
-            onClick={() => navigate("/favorites")}
+            onClick={() => navigate("/app/favorites")}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
           >
             ⭐ View Favorites
@@ -96,4 +80,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Events;
