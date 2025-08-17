@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* For leaflet map sizing */
+.leaflet-container {
+  height: 300px;
+  width: 100%;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
